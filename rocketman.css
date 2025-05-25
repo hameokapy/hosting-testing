@@ -1,0 +1,624 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,600');
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0; 
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+}
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* RESPONSIVE NAVIGATION SECTION */
+
+.nav-section {
+    display: grid;
+    grid-template-columns: 0.5fr auto 1fr minmax(600px, 3fr) 0.5fr;
+    grid-template-rows: 150px;
+    background: white;
+    width: 100%;
+}
+.nav-section > a {
+    grid-column: 2 / 3;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+.nav-section > ul {
+    grid-column: 4 / 5;
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+.nav-section > ul > li > a {
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1.3rem;
+    text-shadow: 0.3px 0.3px rgba(0, 0, 0, 0.6);
+    /* cho cái text shadow vào nhìn cho nó rõ hơn, chứ font-weight:600 thì đậm quá */
+    position: relative;
+}
+.nav-section > ul > li > a:hover {
+    color: black;
+}
+.nav-section > ul > li > a::before {
+    position: absolute;
+    top: -0.75em;
+    left: 0px;
+    right: 0px;
+    content: "";
+    display: block;
+    height: 5px;
+    background: black;
+    transform-origin: center;
+    transform: scale(0, 1);
+    transition: transform ease-in-out 400ms;
+}
+.nav-section > ul > li > a:hover::before {
+    transform: scale(1, 1);
+}
+.nav-toggle {
+    position: absolute !important; 
+    top: -9999px !important; 
+    left: -9999px !important;
+}
+@media screen and (max-width: 980px) {
+    .nav-section {
+        all: unset;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 150px;
+        position: relative;
+    }
+    .nav-section > a {
+        margin-right: 5em;
+    }
+    .nav-toggle-label {
+        position: absolute;
+        display: flex;
+        top: 0;
+        right: 0;
+        margin-right: 1em;
+        padding: 0px 5px;
+        height: 100%;
+        align-items: center;
+    }
+    .nav-toggle-label span, .nav-toggle-label span::before, .nav-toggle-label span::after {
+        /* display: block; */
+        /* cái display:block này để ở đây ko có tác dụng chi gì */
+        content: "";
+        height: 3px;
+        width: 5em;
+        background-color: black;
+        border-radius: 2em;
+        position: relative;
+    }
+    .nav-toggle-label span::before {
+        position: absolute;
+        top: 12px;
+    }
+    .nav-toggle-label span::after {
+        position: absolute;
+        bottom: 12px;
+    }
+    .nav-toggle:focus ~ .nav-toggle-label {
+        outline: 3px solid black;
+    }
+    .nav-section > ul {
+        display: block;
+        /* tại vì ở trên setup nó là display:flex mà đang cần mỗi list item một dòng nên là phải đổi về dạng gốc là dạng này */
+        margin: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        width: 100%;
+        /* cần width:100% ở đây vì khi ở position:absolute thì nó behaves like an inline-block element nên cần dùng code này để offset điều đó */
+        transform: scale(1, 0);
+        transition: transform 300ms ease;
+        transform-origin: top;
+    }
+    .nav-toggle:checked ~ ul {
+        transform: scale(1, 1);
+    }
+    .nav-section > ul > li {
+        padding: 10px 5px;   
+        text-align: center;
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+    }
+    .nav-toggle:checked ~ ul>li {
+        opacity: 1;
+        transition: opacity 10ms ease-in-out 300ms;
+    }
+    .nav-section > ul > li > a::before {
+        top: -0.3em; /* để thay đổi cái top:-0.75em setup ở trên */
+    }
+}
+@media screen and (max-width: 500px) {
+    .nav-section {
+        height: 100px;
+    }
+    .nav-section > a > img {
+        max-width: 80%;
+    }
+    .nav-toggle-label span, .nav-toggle-label span::before, .nav-toggle-label span::after {
+        width: 2rem;
+    }
+}
+
+/* RESPONSIVE HERO SECTION */
+
+/* responsive: ban đầu định dùng padding-top:50% thay cho cho cái height:740px nhưng mà ko chỉnh đc responsive của .hero-content khi nó ở position:absolute nên đành quay về dùng fixed height -> cái padding top trick đấy chỉ hữu dụng khi ko có text content*/
+
+.hero-section {
+    height: 740px;
+    /* hiện phải để nó ở cái fixed height này vì chưa nghĩ ra cách nào khác để ứng phó với cái background image này */
+    background-image: linear-gradient(180.43deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.80) 100%), url("https://rocketman.learnwagtail.com/media/images/spacex-OHOU-5UVIYQ-unsplash.2e16d0ba.fill-1600x800.jpg");
+    background-size: cover;
+    background-position: 50%;
+    /* responsive: hai cái trên cần thiết khi resize về tầm 400px thì nó sẽ cho mình cái phần đẹp của ảnh */
+    background-repeat: no-repeat;  
+    display: flex;
+    /* align-items: center;  */
+    /* hiện ko cần cái align-items này vì thằng margin ở .hero-content cân hết rồi */
+}
+.hero {
+    width: 80%;
+    /* mục đích là dùng margin:auto để center cái .hero này sao cho nó có một khoảng space ở lề trái cho đỡ xấu ấy -> đây cx chính là mục đích của việc tạo thêm cái div này luôn, để nó center ở đúng cái lề trái mình cần chứ ko phải tụt sâu vào trong thêm */
+    margin: auto;
+}
+.hero-content {
+    color: #f8f9fa;
+    font-weight: 300 !important;
+    max-width: 70%;
+}
+.hero-content > h1 {
+    font-size: 4.2rem;
+    font-weight: 300;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+.hero-content > p {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.hero-content > a {
+    display: inline-block;
+    /* để inline-block để tạo cái viền quanh nút ấy, chứ để block nó tạo viền cả cái dòng */
+    margin-top: 2rem;
+    font-family: Metropolis, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: #212529;
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+}
+.hero-content > a:hover {
+    background-color: #c8cbce;
+    color: black;
+    transition: all 300ms ease-in-out;
+}
+@media (max-width:991px) {
+    .hero-content {
+        max-width: 100%;
+    } 
+}
+@media (max-width: 666px) {
+    .hero {
+        width: 100%;
+        padding: 1rem;
+    }
+    .hero-content {
+        text-align: center;
+    }
+    .hero-content h1 {
+        font-size: 2.7rem;
+    }
+    .hero-content p {
+        font-size: 1.6rem;
+    }
+    .hero-content a {
+        font-size: 1rem;
+    }
+}
+
+/* RESPONSIVE MAIN SECTION */
+
+.tittle-block {
+    margin: 3rem 0;
+    padding: 2rem;
+    text-align: center;
+}
+.tittle-block h3 {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+.cards-block {
+    display: flex;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    /* để thằng flex-wrap này ở đây là bị lỗi form làm thằng card-content bay đi đâu ấy, nên ta sẽ bỏ cái flex-wrap đi và thay bằng flex-direction:column ở cái media query đủ nhỏ */
+}
+.card1-container, .card2-container {
+    padding: 17.5px;
+    display: flex;
+}
+.card1, .card2 {
+    border: 1px solid rgba(0, 0, 0, .125);
+    text-align: center;
+    flex: 1 1 600px;
+    /* cái flex để 1 1 này cực quan trọng: chiêu này giúp bỏ được đi cái kiểu đặt media query để setup fixed width với từng trường hợp */
+}
+.card1 > a > img, .card2 > a > img {
+    width: 100%;
+    /* phải để width của img = 100% của a nếu ko thằng h5 mà xi nhê xíu là hỏng border rồi */
+}
+.card1-content, .card2-content {
+    padding: 3rem;
+    color: black;
+}
+.card1-content h5, .card2-content h5 {
+    font-size: 1.4rem;
+    margin:0 0 0.75rem 0;
+}
+.card1-content > p:nth-child(2), .card2-content > p:nth-child(2) {
+    font-size: 1.2rem;
+    margin: 1rem 0 0 0;
+} 
+.card1-content > p:nth-child(3), .card2-content > p:nth-child(3) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 1rem 0 0 0;
+    text-transform: uppercase;
+    color: #814ebf;
+    padding: 0.25rem;
+    position: relative;
+    display: inline-block;
+    /* lý do đưa về display:inline-block là để đặt position cái .arrowhead:after cho tiện */
+} 
+.arrowhead::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0.9rem;
+    height: 0.9rem;
+    background-image: url("data:image/svg+xml,%3Csvg height='164px' width='164px' version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 512.00 512.00' xml:space='preserve' fill='%23814ebf' stroke='%23814ebf' transform='matrix(-1, 0, 0, 1, 0, 0)rotate(0)'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'/%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Cpath style='fill:%23814ebf;' d='M292.744,470.495H173.127c-4.374,0-8.509-1.998-11.228-5.425L3.104,264.908 c-4.139-5.217-4.139-12.598,0-17.815L161.9,46.93c2.719-3.427,6.854-5.425,11.228-5.425h119.617c5.498,0,10.513,3.146,12.905,8.098 c2.392,4.952,1.74,10.835-1.677,15.142L202.651,192.462c-4.92,6.202-13.935,7.239-20.135,2.32 c-6.202-4.919-7.241-13.934-2.32-20.135l82.886-104.478h-83.028L32.627,256l147.425,185.831h83.028L122.721,264.908 c-4.92-6.202-3.881-15.217,2.32-20.135c6.199-4.92,15.215-3.881,20.135,2.32l158.794,200.163c3.418,4.307,4.069,10.19,1.677,15.142 C303.256,467.348,298.243,470.495,292.744,470.495z'/%3E%3Cpolygon style='fill:;' points='378.049,55.837 219.255,256 378.049,456.163 497.668,456.163 338.872,256 497.668,55.837 '/%3E%3Cpath style='fill:%23814ebf;' d='M497.666,470.495H378.049c-4.374,0-8.509-1.998-11.228-5.425L208.027,264.908 c-4.139-5.217-4.139-12.598,0-17.815L366.823,46.93c2.719-3.427,6.854-5.425,11.228-5.425h119.617 c5.499,0,10.513,3.146,12.905,8.098c2.392,4.952,1.74,10.835-1.677,15.142L357.167,256l151.729,191.255 c3.418,4.307,4.069,10.19,1.677,15.142C508.179,467.348,503.166,470.495,497.666,470.495z M384.975,441.831h83.028L327.644,264.908 c-4.139-5.217-4.139-12.598,0-17.815L468.003,70.169h-83.028L237.55,256L384.975,441.831z'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: translate(100%,-50%);
+}
+@media (max-width: 815px) {
+    .tittle-block {
+        margin: 1.7rem 0;
+    }
+    /* phải để cùng lúc 2 cái hiệu chỉnh flex-direction:column và width:100 này thì nó mới resize ảnh tự động được */
+    .cards-block {
+        flex-direction: column;
+    }
+}
+.text-block {
+    margin: 6.5rem auto;
+    display: flex;
+    max-width: 1200px;
+    padding: 20px;
+    /* align-items: center; */
+    /* có margin:auto rồi nên cx ko cần cái align-items này lắm */
+}
+.image-tex-holder {
+    position: relative;
+    flex-basis: 65%;
+}
+.tb2 {
+    justify-content: flex-end;
+}
+.image-tex-holder img {
+    width: 100%;
+    /* hữu ích khi resize width nó nhỏ lại thì ảnh này cover được hết cái width trừ phần padding */
+}
+.text-container {
+    position: absolute;
+    max-width: 65%;
+    right: -47%;
+    bottom: -10%;
+}
+.tc2 {
+    right: initial;
+    left: -47%;
+}
+.text {
+    background-image: url("https://rocketman.learnwagtail.com/static/images/grey-pattern.b4f896f3f272.png");
+    padding: 50px;
+    color: #fff;
+}
+.text > h3 {
+    margin-top: 0;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+.text > p {
+    font-size: 20px;
+    margin-bottom: 1.3rem;
+    margin-top: 0;
+}
+.text > a {
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: Metropolis, sans-serif;
+    color: #212529;
+    background-color: #fff;
+    transition: all 0.5s ease-in-out;
+}
+.text > a:hover {
+    background-color: #c8cbce;
+    color: black;
+    transition: all 300ms ease-in-out;
+}
+@media (max-width: 1200px) {
+    .text-block {
+        max-width: 925px;
+    }
+}
+@media (max-width: 900px) {
+    .text-block:nth-child(3) {
+        margin: 5rem auto 2rem auto;
+    }
+    .tb {
+        margin: 0 auto 2rem auto;
+    }
+    .image-tex-holder {
+        flex: 1;
+        font-size: 0;
+        /* cái font-size:0 này là để xóa cái whitespace giữa img và .text-container */
+    }
+    .text-container {
+        position: initial;
+        max-width: 100%;
+    }
+    .text {
+        padding: 30px;
+    }
+    .text-container a {
+        line-height: 2;
+    }
+}
+.call-to-action {
+    margin: 75px auto;
+    display: grid;
+    justify-content: center;
+}
+.call-to-action > h3 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 75px;
+}
+.call-to-action > a {
+    margin: 0 auto 0 auto;
+    display: inline-block;
+    font-family: Metropolis, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: #fff;
+    background-color: #814ebf;
+    padding: 1rem 3rem;
+    text-transform: uppercase;
+    transition: all 300ms ease;
+}
+.call-to-action > a:hover {
+    background-color: #4c306d;
+}
+@media (max-width: 900px) {
+    .call-to-action {
+        margin: 4.5rem 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        /* bước này chưa được tối ưu, sao dùng grid lại đổi sang flex làm chi */
+    }
+    .call-to-action > h3 {
+        padding-top: 0;
+    }
+}
+.testimonial-block {
+    max-width: 765px;
+    display: flex;
+    margin-inline: auto;
+    flex-direction: column;
+    align-items: center;
+    padding-inline: 1rem;
+}
+.testimonial-block > h3 {
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.37;
+    color: #212b36;
+    text-align: center;
+    letter-spacing: -1px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 75px;
+}
+.testimonial-block > p {
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #000;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    padding-bottom: 75px;
+}
+@media (max-width: 900px) {
+    .testimonial-block > h3 {
+        padding-top: 0;
+    }
+    .testimonial-block > p {
+        padding-bottom: 0;
+    }
+}
+
+/* LAST CALL TO ACTION SECTION */
+
+.last-call-to-action-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 75px auto 0 auto;
+    background-color: #814ebf;
+    color: #fff;
+    padding: 4.5rem 1rem;
+}
+.last-text-block {
+    flex: 0 0 55%;
+}
+.last-text-block h3 {
+    font-weight: 800;
+    font-size: 40px;
+    margin-top: 0;
+}
+.last-text-block p {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 1.33;
+    margin-bottom: 0;
+}
+.last-action-block {
+    flex: 0 0 25%;
+    display: flex;
+    justify-content: flex-end;
+}
+.last-action-block a {
+    font-family: Metropolis, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: #212529;
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+}
+.last-action-block a:hover {
+    background-color: #c8cbce;
+    color: black;
+    transition: all 300ms ease-in-out;
+}
+@media (max-width: 991px) {
+    .last-call-to-action-section {
+        flex-direction: column;
+        /* lý do ko dùng flex-wrap:wrap; ở trên là vì mình muốn từ đúng cái 991px đổ xuống thì tạo column luôn -> cái flex-wrap nó còn xuống sâu nữa mới break xuống dòng thì như thế cái đoạn ở giữa bị nó chèn rất xấu */
+    }
+    .last-text-block {
+        flex: 1;
+        text-align: center;
+    }
+    .last-action-block {
+        margin-top: 48px;
+        flex: 1;
+    }
+}
+
+/* FOOTER SECTION */
+
+footer {
+    padding: 4.5rem 0;
+    background-color: #000;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr repeat(4, minmax(0, 315px)) 1fr;
+}
+footer > div {
+    padding-inline: 20px;
+}
+footer > div > p:first-child {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1.75px;
+    text-transform: uppercase;
+    color: #858585;
+    margin-top: 0;
+}
+footer > div > p:not(p:first-child) {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+}
+.links {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+}
+.links > a {
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 22px;
+    color: #fff;
+}
+.contact-us a {
+    color: #fff;
+}
+.hours {
+    margin-inline: auto;
+}
+.social-media {
+    margin-inline: auto;
+}
+.social-media svg {
+    width: 20px;
+    height: 18px;
+    margin: 3px;
+}
+.social-media p {
+    font-weight: 400;
+    font-size: 14px !important;
+    color: #858585;
+    display: inline-block;
+}
+@media (max-width: 845px) {
+    footer {
+    grid-template-columns: 1fr repeat(2, minmax(0, 315px)) 1fr;
+    grid-template-rows: auto auto;
+    grid-row-gap: 2.5rem;
+    text-align: center;
+    }
+    .hours {
+        grid-area: 2/2/3/3;
+    }
+    .social-media {
+        grid-area: 2/3/3/4;
+    }
+}
+@media (max-width: 600px) {
+    footer {
+        grid-template-columns: 1fr repeat(1, minmax(0, 315px)) 1fr;
+        grid-template-rows: auto auto auto auto;
+    }
+    .contact-us {
+        grid-area: 2/2/3/3;
+    }
+    .hours {
+        grid-area: 3/2/4/3;
+    }
+    .social-media {
+        grid-area: 4/2/5/3;
+    }
+}
