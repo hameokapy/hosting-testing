@@ -340,7 +340,7 @@ a {
     left: -47%;
 }
 .text {
-    background-image: url("https://rocketman.learnwagtail.com/static/images/grey-pattern.b4f896f3f272.png");
+    background-color: black;
     padding: 50px;
     color: #fff;
 }
@@ -536,9 +536,7 @@ a {
         flex: 1;
     }
 }
-.dm h3, .dm p {
-    color: #33cccc;
-}
+
 /* FOOTER SECTION */
 
 footer {
