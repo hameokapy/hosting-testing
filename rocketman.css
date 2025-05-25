@@ -68,8 +68,8 @@ a {
     top: -9999px !important; 
     left: -9999px !important;
 }
-.dm {
-    color: #00cc99;
+.dm h3, .dm p {
+    color: #ffff00;
 }
 @media screen and (max-width: 980px) {
     .nav-section {
